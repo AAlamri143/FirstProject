@@ -19,6 +19,8 @@ $(document).ready(function () {
   $("#food-search-button").on("click", function () {
     $("#drink-video").css("display", "none");
     $("#food-video").css("display", "block");
+    $("#right-side").css("background-image", "url(#)");
+    $("#right-side").css("background-color", "black");
     // $(".video-play").empty();
     event.preventDefault();
 
@@ -55,12 +57,10 @@ $(document).ready(function () {
       // right side changes:
       $("#right-default").hide();
       $("#food-results").empty();
-      $("#food-results").append(searchTerm);
-      $("#food-results").append("<h4>Meal: " + response.meals[0].strMeal + "</h4>");
+      $("#food-results").append("<h4></br>Meal: " + response.meals[0].strMeal + "</h4>");
       $("#food-results").append("</br> Area: " + response.meals[0].strArea);
       $("#food-results").append("</br> Category: " + response.meals[0].strCategory + "</br>");
-      $("#food-results").append("<br> Instructions: <br> " + response.meals[0].strInstructions);
-      $("#food-results").append("<br><br> Ingredients:<br>");
+      $("#food-results").append("<br> Ingredients:<br>");
       if (response.meals[0].strIngredient1.length > 0) { $("#food-results").append(response.meals[0].strMeasure1 + " " + response.meals[0].strIngredient1 + "<br>") };
       if (response.meals[0].strIngredient2.length > 0) { $("#food-results").append(response.meals[0].strMeasure2 + " " + response.meals[0].strIngredient2 + "<br>") };
       if (response.meals[0].strIngredient3.length > 0) { $("#food-results").append(response.meals[0].strMeasure3 + " " + response.meals[0].strIngredient3 + "<br>") };
@@ -81,6 +81,21 @@ $(document).ready(function () {
       if (response.meals[0].strIngredient18.length > 0) { $("#food-results").append(response.meals[0].strMeasure18 + " " + response.meals[0].strIngredient18 + "<br>") };
       if (response.meals[0].strIngredient19.length > 0) { $("#food-results").append(response.meals[0].strMeasure19 + " " + response.meals[0].strIngredient19 + "<br>") };
       if (response.meals[0].strIngredient20.length > 0) { $("#food-results").append(response.meals[0].strMeasure20 + " " + response.meals[0].strIngredient20 + "<br>") };
+      $("#food-results").append("<br> Instructions: <br> " + response.meals[0].strInstructions);
+      // other recommended:
+      var recommendURL = "https://www.themealdb.com/api/json/v1/1/filter.php?i=" + searchTerm;
+      $.ajax({
+        url: recommendURL,
+        method: "GET"
+      }).then(function (response) {
+        $("#food-recommend").empty();
+        if (response.meals.length > 1) {
+          $("#food-recommend").html("<br><div>Other Recommendations:</div>")
+          for (var i = 0; i < response.meals.length; i++) {
+            $("#food-recommend").append("&star; " + response.meals[i].strMeal + "<br>");
+          }
+        }
+      })
     })
   });
 
@@ -90,6 +105,8 @@ $(document).ready(function () {
   $("#food-random-button").on("click", function () {
     $("#drink-video").css("display", "none");
     $("#food-video").css("display", "block");
+    $("#right-side").css("background-image", "url(#)");
+    $("#right-side").css("background-color", "black");
     $(".video-play").empty();
     event.preventDefault();
 
@@ -116,11 +133,10 @@ $(document).ready(function () {
       // right side changes:
       $("#right-default").hide();
       $("#food-results").empty();
-      $("#food-results").append("<h4>Meal: " + response.meals[0].strMeal + "</h4>");
+      $("#food-results").append("<h4></br>Meal: " + response.meals[0].strMeal + "</h4>");
       $("#food-results").append("</br> Area: " + response.meals[0].strArea);
       $("#food-results").append("</br> Category: " + response.meals[0].strCategory + "</br>");
-      $("#food-results").append("<br> Instructions: <br> " + response.meals[0].strInstructions);
-      $("#food-results").append("<br><br> Ingredients:<br>");
+      $("#food-results").append("<br> Ingredients:<br>");
       if (response.meals[0].strIngredient1.length > 0) { $("#food-results").append(response.meals[0].strMeasure1 + " " + response.meals[0].strIngredient1 + "<br>") };
       if (response.meals[0].strIngredient2.length > 0) { $("#food-results").append(response.meals[0].strMeasure2 + " " + response.meals[0].strIngredient2 + "<br>") };
       if (response.meals[0].strIngredient3.length > 0) { $("#food-results").append(response.meals[0].strMeasure3 + " " + response.meals[0].strIngredient3 + "<br>") };
@@ -141,6 +157,7 @@ $(document).ready(function () {
       if (response.meals[0].strIngredient18.length > 0) { $("#food-results").append(response.meals[0].strMeasure18 + " " + response.meals[0].strIngredient18 + "<br>") };
       if (response.meals[0].strIngredient19.length > 0) { $("#food-results").append(response.meals[0].strMeasure19 + " " + response.meals[0].strIngredient19 + "<br>") };
       if (response.meals[0].strIngredient20.length > 0) { $("#food-results").append(response.meals[0].strMeasure20 + " " + response.meals[0].strIngredient20 + "<br>") };
+      $("#food-results").append("<br> Instructions: <br> " + response.meals[0].strInstructions);
     })
   });
 
@@ -153,6 +170,8 @@ $(document).ready(function () {
   $("#drink-search-button").on("click", function () {
     $("#food-video").css("display", "none");
     $("#drink-video").css("display", "block");
+    $("#left-side").css("background-image", "url(#)");
+    $("#left-side").css("background-color", "black");
     event.preventDefault();
 
     searchTerm = $("#drink-search").val();
@@ -166,9 +185,8 @@ $(document).ready(function () {
       // left side changes:
       $("#left-default").hide();
       $("#drink-results").empty();
-      $("#drink-results").append("<h4>Drink: " + response.drinks[0].strDrink + "</h4></br>");
-      $("#drink-results").append("</br> Glass type: " + response.drinks[0].strGlass);
-      $("#drink-results").append("</br> Instructions: </br> " + response.drinks[0].strInstructions + "</br>");
+      $("#drink-results").append("<h4></br>Drink: " + response.drinks[0].strDrink + "</h4></br>");
+      $("#drink-results").append("</br> Glass type: " + response.drinks[0].strGlass + "</br>");
       $("#drink-results").append("</br> Ingredients:</br>");
       if (response.drinks[0].strIngredient1.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure1 + " " + response.drinks[0].strIngredient1 + "<br>") };
       if (response.drinks[0].strIngredient2.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure2 + " " + response.drinks[0].strIngredient2 + "<br>") };
@@ -185,6 +203,14 @@ $(document).ready(function () {
       if (response.drinks[0].strIngredient13.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure13 + " " + response.drinks[0].strIngredient13 + "<br>") };
       if (response.drinks[0].strIngredient14.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure14 + " " + response.drinks[0].strIngredient14 + "<br>") };
       if (response.drinks[0].strIngredient15.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure15 + " " + response.drinks[0].strIngredient15 + "<br>") };
+      $("#drink-results").append("</br> Instructions: </br> " + response.drinks[0].strInstructions + "</br>");
+      // other recommended:
+      if (response.drinks.length > 1) {
+        $("#drink-results").append("<br><div class='wow fadeInLeft'>Recommended:</div>")
+        for (var i = 0; i < response.drinks.length; i++) {
+          $("#drink-results").append("<div class='wow fadeInLeft'>&star; " + response.drinks[i].strDrink + "<br></div>");
+        }
+      }
     });
   });
 
@@ -194,6 +220,8 @@ $(document).ready(function () {
   $("#drink-random-button").on("click", function () {
     $("#food-video").css("display", "none");
     $("#drink-video").css("display", "block");
+    $("#left-side").css("background-image", "url(#)");
+    $("#left-side").css("background-color", "black");
     event.preventDefault();
 
     $.ajax({
@@ -205,9 +233,8 @@ $(document).ready(function () {
       // left side changes:
       $("#left-default").hide();
       $("#drink-results").empty();
-      $("#drink-results").append("<h4>Drink: " + response.drinks[0].strDrink + "</h4></br>");
-      $("#drink-results").append("</br> Glass type: " + response.drinks[0].strGlass);
-      $("#drink-results").append("</br> Instructions: </br> " + response.drinks[0].strInstructions + "</br>");
+      $("#drink-results").append("<h4></br>Drink: " + response.drinks[0].strDrink + "</h4></br>");
+      $("#drink-results").append("</br> Glass type: " + response.drinks[0].strGlass + "</br>");
       $("#drink-results").append("</br> Ingredients:</br>");
       if (response.drinks[0].strIngredient1.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure1 + " " + response.drinks[0].strIngredient1 + "<br>") };
       if (response.drinks[0].strIngredient2.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure2 + " " + response.drinks[0].strIngredient2 + "<br>") };
@@ -224,6 +251,7 @@ $(document).ready(function () {
       if (response.drinks[0].strIngredient13.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure13 + " " + response.drinks[0].strIngredient13 + "<br>") };
       if (response.drinks[0].strIngredient14.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure14 + " " + response.drinks[0].strIngredient14 + "<br>") };
       if (response.drinks[0].strIngredient15.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure15 + " " + response.drinks[0].strIngredient15 + "<br>") };
+      $("#drink-results").append("</br> Instructions: </br> " + response.drinks[0].strInstructions + "</br>");
     });
   });
 
@@ -239,11 +267,14 @@ $(document).ready(function () {
     $("#food-video").css("display", "block");
   })
 
+
   //-----------------------------------------------------------------------------
   /////////////// Circle 1 ///////////////
   $(".circle1").on("click", function () {
     $("#drink-video").css("display", "none");
     $("#food-video").css("display", "block");
+    $("#right-side").css("background-image", "url(#)");
+    $("#right-side").css("background-color", "black");
     $(".video-play").empty();
 
     event.preventDefault();
@@ -265,13 +296,12 @@ $(document).ready(function () {
       // right side changes:
       $("#left-default").show();
       $("#right-default").hide();
-      $("#drink-photo").attr("src","#");
+      $("#drink-photo").attr("src", "#");
       $("#drink-results").empty();
       $("#food-results").empty();
-      $("#food-results").append("<h4>Meal: " + response.meals[0].strMeal + "</h4>");
+      $("#food-results").append("<h4></br>Meal: " + response.meals[0].strMeal + "</h4>");
       $("#food-results").append("</br> Area: " + response.meals[0].strArea);
       $("#food-results").append("</br> Category: " + response.meals[0].strCategory + "</br>");
-      $("#food-results").append("<br> Instructions: <br> " + response.meals[0].strInstructions);
       $("#food-results").append("<br><br> Ingredients:<br>");
       if (response.meals[0].strIngredient1.length > 0) { $("#food-results").append(response.meals[0].strMeasure1 + " " + response.meals[0].strIngredient1 + "<br>") };
       if (response.meals[0].strIngredient2.length > 0) { $("#food-results").append(response.meals[0].strMeasure2 + " " + response.meals[0].strIngredient2 + "<br>") };
@@ -293,12 +323,16 @@ $(document).ready(function () {
       if (response.meals[0].strIngredient18.length > 0) { $("#food-results").append(response.meals[0].strMeasure18 + " " + response.meals[0].strIngredient18 + "<br>") };
       if (response.meals[0].strIngredient19.length > 0) { $("#food-results").append(response.meals[0].strMeasure19 + " " + response.meals[0].strIngredient19 + "<br>") };
       if (response.meals[0].strIngredient20.length > 0) { $("#food-results").append(response.meals[0].strMeasure20 + " " + response.meals[0].strIngredient20 + "<br>") };
+      $("#food-results").append("<br> Instructions: <br> " + response.meals[0].strInstructions + "<br>");
     })
   });
+
   /////////////// Circle 2 ///////////////
   $(".circle2").on("click", function () {
     $("#drink-video").css("display", "none");
     $("#food-video").css("display", "block");
+    $("#right-side").css("background-image", "url(#)");
+    $("#right-side").css("background-color", "black");
     $(".video-play").empty();
 
     event.preventDefault();
@@ -320,13 +354,12 @@ $(document).ready(function () {
       // right side changes:
       $("#left-default").show();
       $("#right-default").hide();
-      $("#drink-photo").attr("src","#");
+      $("#drink-photo").attr("src", "#");
       $("#drink-results").empty();
       $("#food-results").empty();
-      $("#food-results").append("<h4>Meal: " + response.meals[0].strMeal + "</h4>");
+      $("#food-results").append("<h4></br>Meal: " + response.meals[0].strMeal + "</h4>");
       $("#food-results").append("</br> Area: " + response.meals[0].strArea);
       $("#food-results").append("</br> Category: " + response.meals[0].strCategory + "</br>");
-      $("#food-results").append("<br> Instructions: <br> " + response.meals[0].strInstructions);
       $("#food-results").append("<br><br> Ingredients:<br>");
       if (response.meals[0].strIngredient1.length > 0) { $("#food-results").append(response.meals[0].strMeasure1 + " " + response.meals[0].strIngredient1 + "<br>") };
       if (response.meals[0].strIngredient2.length > 0) { $("#food-results").append(response.meals[0].strMeasure2 + " " + response.meals[0].strIngredient2 + "<br>") };
@@ -348,12 +381,16 @@ $(document).ready(function () {
       if (response.meals[0].strIngredient18.length > 0) { $("#food-results").append(response.meals[0].strMeasure18 + " " + response.meals[0].strIngredient18 + "<br>") };
       if (response.meals[0].strIngredient19.length > 0) { $("#food-results").append(response.meals[0].strMeasure19 + " " + response.meals[0].strIngredient19 + "<br>") };
       if (response.meals[0].strIngredient20.length > 0) { $("#food-results").append(response.meals[0].strMeasure20 + " " + response.meals[0].strIngredient20 + "<br>") };
+      $("#food-results").append("<br> Instructions: <br> " + response.meals[0].strInstructions + "<br>");
     })
   });
+
   /////////////// Circle 3 ///////////////
   $(".circle3").on("click", function () {
     $("#drink-video").css("display", "none");
     $("#food-video").css("display", "block");
+    $("#right-side").css("background-image", "url(#)");
+    $("#right-side").css("background-color", "black");
     $(".video-play").empty();
 
     event.preventDefault();
@@ -375,13 +412,12 @@ $(document).ready(function () {
       // right side changes:
       $("#left-default").show();
       $("#right-default").hide();
-      $("#drink-photo").attr("src","#");
+      $("#drink-photo").attr("src", "#");
       $("#drink-results").empty();
       $("#food-results").empty();
-      $("#food-results").append("<h4>Meal: " + response.meals[0].strMeal + "</h4>");
+      $("#food-results").append("<h4></br>Meal: " + response.meals[0].strMeal + "</h4>");
       $("#food-results").append("</br> Area: " + response.meals[0].strArea);
       $("#food-results").append("</br> Category: " + response.meals[0].strCategory + "</br>");
-      $("#food-results").append("<br> Instructions: <br> " + response.meals[0].strInstructions);
       $("#food-results").append("<br><br> Ingredients:<br>");
       if (response.meals[0].strIngredient1.length > 0) { $("#food-results").append(response.meals[0].strMeasure1 + " " + response.meals[0].strIngredient1 + "<br>") };
       if (response.meals[0].strIngredient2.length > 0) { $("#food-results").append(response.meals[0].strMeasure2 + " " + response.meals[0].strIngredient2 + "<br>") };
@@ -403,12 +439,16 @@ $(document).ready(function () {
       if (response.meals[0].strIngredient18.length > 0) { $("#food-results").append(response.meals[0].strMeasure18 + " " + response.meals[0].strIngredient18 + "<br>") };
       if (response.meals[0].strIngredient19.length > 0) { $("#food-results").append(response.meals[0].strMeasure19 + " " + response.meals[0].strIngredient19 + "<br>") };
       if (response.meals[0].strIngredient20.length > 0) { $("#food-results").append(response.meals[0].strMeasure20 + " " + response.meals[0].strIngredient20 + "<br>") };
+      $("#food-results").append("<br> Instructions: <br> " + response.meals[0].strInstructions + "<br>");
     })
   });
+
   /////////////// Circle 4 ///////////////
   $(".circle4").on("click", function () {
     $("#drink-video").css("display", "none");
     $("#food-video").css("display", "block");
+    $("#right-side").css("background-image", "url(#)");
+    $("#right-side").css("background-color", "black");
     $(".video-play").empty();
 
     event.preventDefault();
@@ -430,13 +470,12 @@ $(document).ready(function () {
       // right side changes:
       $("#left-default").show();
       $("#right-default").hide();
-      $("#drink-photo").attr("src","#");
+      $("#drink-photo").attr("src", "#");
       $("#drink-results").empty();
       $("#food-results").empty();
-      $("#food-results").append("<h4>Meal: " + response.meals[0].strMeal + "</h4>");
+      $("#food-results").append("<h4></br>Meal: " + response.meals[0].strMeal + "</h4>");
       $("#food-results").append("</br> Area: " + response.meals[0].strArea);
       $("#food-results").append("</br> Category: " + response.meals[0].strCategory + "</br>");
-      $("#food-results").append("<br> Instructions: <br> " + response.meals[0].strInstructions);
       $("#food-results").append("<br><br> Ingredients:<br>");
       if (response.meals[0].strIngredient1.length > 0) { $("#food-results").append(response.meals[0].strMeasure1 + " " + response.meals[0].strIngredient1 + "<br>") };
       if (response.meals[0].strIngredient2.length > 0) { $("#food-results").append(response.meals[0].strMeasure2 + " " + response.meals[0].strIngredient2 + "<br>") };
@@ -458,12 +497,16 @@ $(document).ready(function () {
       if (response.meals[0].strIngredient18.length > 0) { $("#food-results").append(response.meals[0].strMeasure18 + " " + response.meals[0].strIngredient18 + "<br>") };
       if (response.meals[0].strIngredient19.length > 0) { $("#food-results").append(response.meals[0].strMeasure19 + " " + response.meals[0].strIngredient19 + "<br>") };
       if (response.meals[0].strIngredient20.length > 0) { $("#food-results").append(response.meals[0].strMeasure20 + " " + response.meals[0].strIngredient20 + "<br>") };
+      $("#food-results").append("<br> Instructions: <br> " + response.meals[0].strInstructions + "<br>");
     })
   });
+
   /////////////// Circle 5 ///////////////
   $(".circle5").on("click", function () {
     $("#drink-video").css("display", "none");
     $("#food-video").css("display", "block");
+    $("#right-side").css("background-image", "url(#)");
+    $("#right-side").css("background-color", "black");
     $(".video-play").empty();
 
     event.preventDefault();
@@ -485,13 +528,12 @@ $(document).ready(function () {
       // right side changes:
       $("#left-default").show();
       $("#right-default").hide();
-      $("#drink-photo").attr("src","#");
+      $("#drink-photo").attr("src", "#");
       $("#drink-results").empty();
       $("#food-results").empty();
-      $("#food-results").append("<h4>Meal: " + response.meals[0].strMeal + "</h4>");
+      $("#food-results").append("<h4></br>Meal: " + response.meals[0].strMeal + "</h4>");
       $("#food-results").append("</br> Area: " + response.meals[0].strArea);
       $("#food-results").append("</br> Category: " + response.meals[0].strCategory + "</br>");
-      $("#food-results").append("<br> Instructions: <br> " + response.meals[0].strInstructions);
       $("#food-results").append("<br><br> Ingredients:<br>");
       if (response.meals[0].strIngredient1.length > 0) { $("#food-results").append(response.meals[0].strMeasure1 + " " + response.meals[0].strIngredient1 + "<br>") };
       if (response.meals[0].strIngredient2.length > 0) { $("#food-results").append(response.meals[0].strMeasure2 + " " + response.meals[0].strIngredient2 + "<br>") };
@@ -513,6 +555,7 @@ $(document).ready(function () {
       if (response.meals[0].strIngredient18.length > 0) { $("#food-results").append(response.meals[0].strMeasure18 + " " + response.meals[0].strIngredient18 + "<br>") };
       if (response.meals[0].strIngredient19.length > 0) { $("#food-results").append(response.meals[0].strMeasure19 + " " + response.meals[0].strIngredient19 + "<br>") };
       if (response.meals[0].strIngredient20.length > 0) { $("#food-results").append(response.meals[0].strMeasure20 + " " + response.meals[0].strIngredient20 + "<br>") };
+      $("#food-results").append("<br> Instructions: <br> " + response.meals[0].strInstructions + "<br>");
     })
   });
 
@@ -520,6 +563,8 @@ $(document).ready(function () {
   $(".circle6").on("click", function () {
     $("#food-video").css("display", "none");
     $("#drink-video").css("display", "block");
+    $("#left-side").css("background-image", "url(#)");
+    $("#left-side").css("background-color", "black");
     event.preventDefault();
 
     $.ajax({
@@ -534,10 +579,9 @@ $(document).ready(function () {
       $("#right-default").show();
       $("#drink-results").empty();
       $("#food-results").empty();
-      $("#food-photo").attr("src","#");
-      $("#drink-results").append("<h4>Drink: " + response.drinks[0].strDrink + "</h4></br>");
-      $("#drink-results").append("</br> Glass type: " + response.drinks[0].strGlass);
-      $("#drink-results").append("</br> Instructions: </br> " + response.drinks[0].strInstructions + "</br>");
+      $("#food-photo").attr("src", "#");
+      $("#drink-results").append("<h4></br>Drink: " + response.drinks[0].strDrink + "</h4></br>");
+      $("#drink-results").append("</br> Glass type: " + response.drinks[0].strGlass + "</br>");
       $("#drink-results").append("</br> Ingredients:</br>");
       if (response.drinks[0].strIngredient1.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure1 + " " + response.drinks[0].strIngredient1 + "<br>") };
       if (response.drinks[0].strIngredient2.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure2 + " " + response.drinks[0].strIngredient2 + "<br>") };
@@ -554,6 +598,7 @@ $(document).ready(function () {
       if (response.drinks[0].strIngredient13.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure13 + " " + response.drinks[0].strIngredient13 + "<br>") };
       if (response.drinks[0].strIngredient14.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure14 + " " + response.drinks[0].strIngredient14 + "<br>") };
       if (response.drinks[0].strIngredient15.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure15 + " " + response.drinks[0].strIngredient15 + "<br>") };
+      $("#drink-results").append("<br> Instructions: <br> " + response.drinks[0].strInstructions + "<br>");
     });
   });
 
@@ -561,6 +606,8 @@ $(document).ready(function () {
   $(".circle7").on("click", function () {
     $("#food-video").css("display", "none");
     $("#drink-video").css("display", "block");
+    $("#left-side").css("background-image", "url(#)");
+    $("#left-side").css("background-color", "black");
     event.preventDefault();
 
     $.ajax({
@@ -575,10 +622,9 @@ $(document).ready(function () {
       $("#right-default").show();
       $("#drink-results").empty();
       $("#food-results").empty();
-      $("#food-photo").attr("src","#");
-      $("#drink-results").append("<h4>Drink: " + response.drinks[0].strDrink + "</h4></br>");
-      $("#drink-results").append("</br> Glass type: " + response.drinks[0].strGlass);
-      $("#drink-results").append("</br> Instructions: </br> " + response.drinks[0].strInstructions + "</br>");
+      $("#food-photo").attr("src", "#");
+      $("#drink-results").append("<h4></br>Drink: " + response.drinks[0].strDrink + "</h4></br>");
+      $("#drink-results").append("</br> Glass type: " + response.drinks[0].strGlass + "</br>");
       $("#drink-results").append("</br> Ingredients:</br>");
       if (response.drinks[0].strIngredient1.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure1 + " " + response.drinks[0].strIngredient1 + "<br>") };
       if (response.drinks[0].strIngredient2.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure2 + " " + response.drinks[0].strIngredient2 + "<br>") };
@@ -595,128 +641,138 @@ $(document).ready(function () {
       if (response.drinks[0].strIngredient13.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure13 + " " + response.drinks[0].strIngredient13 + "<br>") };
       if (response.drinks[0].strIngredient14.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure14 + " " + response.drinks[0].strIngredient14 + "<br>") };
       if (response.drinks[0].strIngredient15.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure15 + " " + response.drinks[0].strIngredient15 + "<br>") };
+      $("#drink-results").append("</br> Instructions: </br> " + response.drinks[0].strInstructions + "</br>");
     });
   });
-/////////////// Circle 8 ///////////////
-$(".circle8").on("click", function () {
-  $("#food-video").css("display", "none");
-  $("#drink-video").css("display", "block");
-  event.preventDefault();
 
-  $.ajax({
-    url: "https://www.thecocktaildb.com/api/json/v1/1/random.php",
-    method: "GET"
-  }).then(function (response) {
-    $("#drink-photo").attr("src", response.drinks[0].strDrinkThumb);
-    $(".circle8").attr("src", response.drinks[0].strDrinkThumb);
+  /////////////// Circle 8 ///////////////
+  $(".circle8").on("click", function () {
+    $("#food-video").css("display", "none");
+    $("#drink-video").css("display", "block");
+    $("#left-side").css("background-image", "url(#)");
+    $("#left-side").css("background-color", "black");
+    event.preventDefault();
 
-    // left side changes:
-    $("#left-default").hide();
-    $("#right-default").show();
-    $("#drink-results").empty();
-    $("#food-results").empty();
-    $("#food-photo").attr("src","#");
-    $("#drink-results").append("<h4>Drink: " + response.drinks[0].strDrink + "</h4></br>");
-    $("#drink-results").append("</br> Glass type: " + response.drinks[0].strGlass);
-    $("#drink-results").append("</br> Instructions: </br> " + response.drinks[0].strInstructions + "</br>");
-    $("#drink-results").append("</br> Ingredients:</br>");
-    if (response.drinks[0].strIngredient1.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure1 + " " + response.drinks[0].strIngredient1 + "<br>") };
-    if (response.drinks[0].strIngredient2.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure2 + " " + response.drinks[0].strIngredient2 + "<br>") };
-    if (response.drinks[0].strIngredient3.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure3 + " " + response.drinks[0].strIngredient3 + "<br>") };
-    if (response.drinks[0].strIngredient4.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure4 + " " + response.drinks[0].strIngredient4 + "<br>") };
-    if (response.drinks[0].strIngredient5.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure5 + " " + response.drinks[0].strIngredient5 + "<br>") };
-    if (response.drinks[0].strIngredient6.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure6 + " " + response.drinks[0].strIngredient6 + "<br>") };
-    if (response.drinks[0].strIngredient7.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure7 + " " + response.drinks[0].strIngredient7 + "<br>") };
-    if (response.drinks[0].strIngredient8.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure8 + " " + response.drinks[0].strIngredient8 + "<br>") };
-    if (response.drinks[0].strIngredient9.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure9 + " " + response.drinks[0].strIngredient9 + "<br>") };
-    if (response.drinks[0].strIngredient10.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure10 + " " + response.drinks[0].strIngredient10 + "<br>") };
-    if (response.drinks[0].strIngredient11.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure11 + " " + response.drinks[0].strIngredient11 + "<br>") };
-    if (response.drinks[0].strIngredient12.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure12 + " " + response.drinks[0].strIngredient12 + "<br>") };
-    if (response.drinks[0].strIngredient13.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure13 + " " + response.drinks[0].strIngredient13 + "<br>") };
-    if (response.drinks[0].strIngredient14.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure14 + " " + response.drinks[0].strIngredient14 + "<br>") };
-    if (response.drinks[0].strIngredient15.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure15 + " " + response.drinks[0].strIngredient15 + "<br>") };
+    $.ajax({
+      url: "https://www.thecocktaildb.com/api/json/v1/1/random.php",
+      method: "GET"
+    }).then(function (response) {
+      $("#drink-photo").attr("src", response.drinks[0].strDrinkThumb);
+      $(".circle8").attr("src", response.drinks[0].strDrinkThumb);
+
+      // left side changes:
+      $("#left-default").hide();
+      $("#right-default").show();
+      $("#drink-results").empty();
+      $("#food-results").empty();
+      $("#food-photo").attr("src", "#");
+      $("#drink-results").append("<h4></br>Drink: " + response.drinks[0].strDrink + "</h4></br>");
+      $("#drink-results").append("</br> Glass type: " + response.drinks[0].strGlass + "</br>");
+      $("#drink-results").append("</br> Ingredients:</br>");
+      if (response.drinks[0].strIngredient1.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure1 + " " + response.drinks[0].strIngredient1 + "<br>") };
+      if (response.drinks[0].strIngredient2.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure2 + " " + response.drinks[0].strIngredient2 + "<br>") };
+      if (response.drinks[0].strIngredient3.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure3 + " " + response.drinks[0].strIngredient3 + "<br>") };
+      if (response.drinks[0].strIngredient4.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure4 + " " + response.drinks[0].strIngredient4 + "<br>") };
+      if (response.drinks[0].strIngredient5.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure5 + " " + response.drinks[0].strIngredient5 + "<br>") };
+      if (response.drinks[0].strIngredient6.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure6 + " " + response.drinks[0].strIngredient6 + "<br>") };
+      if (response.drinks[0].strIngredient7.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure7 + " " + response.drinks[0].strIngredient7 + "<br>") };
+      if (response.drinks[0].strIngredient8.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure8 + " " + response.drinks[0].strIngredient8 + "<br>") };
+      if (response.drinks[0].strIngredient9.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure9 + " " + response.drinks[0].strIngredient9 + "<br>") };
+      if (response.drinks[0].strIngredient10.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure10 + " " + response.drinks[0].strIngredient10 + "<br>") };
+      if (response.drinks[0].strIngredient11.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure11 + " " + response.drinks[0].strIngredient11 + "<br>") };
+      if (response.drinks[0].strIngredient12.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure12 + " " + response.drinks[0].strIngredient12 + "<br>") };
+      if (response.drinks[0].strIngredient13.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure13 + " " + response.drinks[0].strIngredient13 + "<br>") };
+      if (response.drinks[0].strIngredient14.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure14 + " " + response.drinks[0].strIngredient14 + "<br>") };
+      if (response.drinks[0].strIngredient15.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure15 + " " + response.drinks[0].strIngredient15 + "<br>") };
+      $("#drink-results").append("</br> Instructions: </br> " + response.drinks[0].strInstructions + "</br>");
+    });
   });
-});
-/////////////// Circle 9 ///////////////
-$(".circle9").on("click", function () {
-  $("#food-video").css("display", "none");
-  $("#drink-video").css("display", "block");
-  event.preventDefault();
 
-  $.ajax({
-    url: "https://www.thecocktaildb.com/api/json/v1/1/random.php",
-    method: "GET"
-  }).then(function (response) {
-    $("#drink-photo").attr("src", response.drinks[0].strDrinkThumb);
-    $(".circle9").attr("src", response.drinks[0].strDrinkThumb);
+  /////////////// Circle 9 ///////////////
+  $(".circle9").on("click", function () {
+    $("#food-video").css("display", "none");
+    $("#drink-video").css("display", "block");
+    $("#left-side").css("background-image", "url(#)");
+    $("#left-side").css("background-color", "black");
+    event.preventDefault();
 
-    // left side changes:
-    $("#left-default").hide();
-    $("#right-default").show();
-    $("#drink-results").empty();
-    $("#food-results").empty();
-    $("#food-photo").attr("src","#");
-    $("#drink-results").append("<h4>Drink: " + response.drinks[0].strDrink + "</h4></br>");
-    $("#drink-results").append("</br> Glass type: " + response.drinks[0].strGlass);
-    $("#drink-results").append("</br> Instructions: </br> " + response.drinks[0].strInstructions + "</br>");
-    $("#drink-results").append("</br> Ingredients:</br>");
-    if (response.drinks[0].strIngredient1.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure1 + " " + response.drinks[0].strIngredient1 + "<br>") };
-    if (response.drinks[0].strIngredient2.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure2 + " " + response.drinks[0].strIngredient2 + "<br>") };
-    if (response.drinks[0].strIngredient3.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure3 + " " + response.drinks[0].strIngredient3 + "<br>") };
-    if (response.drinks[0].strIngredient4.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure4 + " " + response.drinks[0].strIngredient4 + "<br>") };
-    if (response.drinks[0].strIngredient5.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure5 + " " + response.drinks[0].strIngredient5 + "<br>") };
-    if (response.drinks[0].strIngredient6.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure6 + " " + response.drinks[0].strIngredient6 + "<br>") };
-    if (response.drinks[0].strIngredient7.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure7 + " " + response.drinks[0].strIngredient7 + "<br>") };
-    if (response.drinks[0].strIngredient8.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure8 + " " + response.drinks[0].strIngredient8 + "<br>") };
-    if (response.drinks[0].strIngredient9.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure9 + " " + response.drinks[0].strIngredient9 + "<br>") };
-    if (response.drinks[0].strIngredient10.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure10 + " " + response.drinks[0].strIngredient10 + "<br>") };
-    if (response.drinks[0].strIngredient11.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure11 + " " + response.drinks[0].strIngredient11 + "<br>") };
-    if (response.drinks[0].strIngredient12.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure12 + " " + response.drinks[0].strIngredient12 + "<br>") };
-    if (response.drinks[0].strIngredient13.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure13 + " " + response.drinks[0].strIngredient13 + "<br>") };
-    if (response.drinks[0].strIngredient14.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure14 + " " + response.drinks[0].strIngredient14 + "<br>") };
-    if (response.drinks[0].strIngredient15.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure15 + " " + response.drinks[0].strIngredient15 + "<br>") };
+    $.ajax({
+      url: "https://www.thecocktaildb.com/api/json/v1/1/random.php",
+      method: "GET"
+    }).then(function (response) {
+      $("#drink-photo").attr("src", response.drinks[0].strDrinkThumb);
+      $(".circle9").attr("src", response.drinks[0].strDrinkThumb);
+
+      // left side changes:
+      $("#left-default").hide();
+      $("#right-default").show();
+      $("#drink-results").empty();
+      $("#food-results").empty();
+      $("#food-photo").attr("src", "#");
+      $("#drink-results").append("<h4></br>Drink: " + response.drinks[0].strDrink + "</h4></br>");
+      $("#drink-results").append("</br> Glass type: " + response.drinks[0].strGlass + "</br>");
+      $("#drink-results").append("</br> Ingredients:</br>");
+      if (response.drinks[0].strIngredient1.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure1 + " " + response.drinks[0].strIngredient1 + "<br>") };
+      if (response.drinks[0].strIngredient2.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure2 + " " + response.drinks[0].strIngredient2 + "<br>") };
+      if (response.drinks[0].strIngredient3.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure3 + " " + response.drinks[0].strIngredient3 + "<br>") };
+      if (response.drinks[0].strIngredient4.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure4 + " " + response.drinks[0].strIngredient4 + "<br>") };
+      if (response.drinks[0].strIngredient5.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure5 + " " + response.drinks[0].strIngredient5 + "<br>") };
+      if (response.drinks[0].strIngredient6.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure6 + " " + response.drinks[0].strIngredient6 + "<br>") };
+      if (response.drinks[0].strIngredient7.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure7 + " " + response.drinks[0].strIngredient7 + "<br>") };
+      if (response.drinks[0].strIngredient8.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure8 + " " + response.drinks[0].strIngredient8 + "<br>") };
+      if (response.drinks[0].strIngredient9.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure9 + " " + response.drinks[0].strIngredient9 + "<br>") };
+      if (response.drinks[0].strIngredient10.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure10 + " " + response.drinks[0].strIngredient10 + "<br>") };
+      if (response.drinks[0].strIngredient11.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure11 + " " + response.drinks[0].strIngredient11 + "<br>") };
+      if (response.drinks[0].strIngredient12.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure12 + " " + response.drinks[0].strIngredient12 + "<br>") };
+      if (response.drinks[0].strIngredient13.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure13 + " " + response.drinks[0].strIngredient13 + "<br>") };
+      if (response.drinks[0].strIngredient14.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure14 + " " + response.drinks[0].strIngredient14 + "<br>") };
+      if (response.drinks[0].strIngredient15.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure15 + " " + response.drinks[0].strIngredient15 + "<br>") };
+      $("#drink-results").append("</br> Instructions: </br> " + response.drinks[0].strInstructions + "</br>");
+    });
   });
-});
-/////////////// Circle 10 ///////////////
-$(".circle10").on("click", function () {
-  $("#food-video").css("display", "none");
-  $("#drink-video").css("display", "block");
-  event.preventDefault();
 
-  $.ajax({
-    url: "https://www.thecocktaildb.com/api/json/v1/1/random.php",
-    method: "GET"
-  }).then(function (response) {
-    $("#drink-photo").attr("src", response.drinks[0].strDrinkThumb);
-    $(".circle10").attr("src", response.drinks[0].strDrinkThumb);
+  /////////////// Circle 10 ///////////////
+  $(".circle10").on("click", function () {
+    $("#food-video").css("display", "none");
+    $("#drink-video").css("display", "block");
+    $("#left-side").css("background-image", "url(#)");
+    $("#left-side").css("background-color", "black");
+    event.preventDefault();
 
-    // left side changes:
-    $("#left-default").hide();
-    $("#right-default").show();
-    $("#drink-results").empty();
-    $("#food-results").empty();
-    $("#food-photo").attr("src","#");
-    $("#drink-results").append("<h4>Drink: " + response.drinks[0].strDrink + "</h4></br>");
-    $("#drink-results").append("</br> Glass type: " + response.drinks[0].strGlass);
-    $("#drink-results").append("</br> Instructions: </br> " + response.drinks[0].strInstructions + "</br>");
-    $("#drink-results").append("</br> Ingredients:</br>");
-    if (response.drinks[0].strIngredient1.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure1 + " " + response.drinks[0].strIngredient1 + "<br>") };
-    if (response.drinks[0].strIngredient2.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure2 + " " + response.drinks[0].strIngredient2 + "<br>") };
-    if (response.drinks[0].strIngredient3.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure3 + " " + response.drinks[0].strIngredient3 + "<br>") };
-    if (response.drinks[0].strIngredient4.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure4 + " " + response.drinks[0].strIngredient4 + "<br>") };
-    if (response.drinks[0].strIngredient5.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure5 + " " + response.drinks[0].strIngredient5 + "<br>") };
-    if (response.drinks[0].strIngredient6.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure6 + " " + response.drinks[0].strIngredient6 + "<br>") };
-    if (response.drinks[0].strIngredient7.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure7 + " " + response.drinks[0].strIngredient7 + "<br>") };
-    if (response.drinks[0].strIngredient8.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure8 + " " + response.drinks[0].strIngredient8 + "<br>") };
-    if (response.drinks[0].strIngredient9.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure9 + " " + response.drinks[0].strIngredient9 + "<br>") };
-    if (response.drinks[0].strIngredient10.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure10 + " " + response.drinks[0].strIngredient10 + "<br>") };
-    if (response.drinks[0].strIngredient11.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure11 + " " + response.drinks[0].strIngredient11 + "<br>") };
-    if (response.drinks[0].strIngredient12.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure12 + " " + response.drinks[0].strIngredient12 + "<br>") };
-    if (response.drinks[0].strIngredient13.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure13 + " " + response.drinks[0].strIngredient13 + "<br>") };
-    if (response.drinks[0].strIngredient14.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure14 + " " + response.drinks[0].strIngredient14 + "<br>") };
-    if (response.drinks[0].strIngredient15.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure15 + " " + response.drinks[0].strIngredient15 + "<br>") };
+    $.ajax({
+      url: "https://www.thecocktaildb.com/api/json/v1/1/random.php",
+      method: "GET"
+    }).then(function (response) {
+      $("#drink-photo").attr("src", response.drinks[0].strDrinkThumb);
+      $(".circle10").attr("src", response.drinks[0].strDrinkThumb);
+
+      // left side changes:
+      $("#left-default").hide();
+      $("#right-default").show();
+      $("#drink-results").empty();
+      $("#food-results").empty();
+      $("#food-photo").attr("src", "#");
+      $("#drink-results").append("<h4></br>Drink: " + response.drinks[0].strDrink + "</h4></br>");
+      $("#drink-results").append("</br> Glass type: " + response.drinks[0].strGlass + "</br>");
+      $("#drink-results").append("</br> Ingredients:</br>");
+      if (response.drinks[0].strIngredient1.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure1 + " " + response.drinks[0].strIngredient1 + "<br>") };
+      if (response.drinks[0].strIngredient2.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure2 + " " + response.drinks[0].strIngredient2 + "<br>") };
+      if (response.drinks[0].strIngredient3.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure3 + " " + response.drinks[0].strIngredient3 + "<br>") };
+      if (response.drinks[0].strIngredient4.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure4 + " " + response.drinks[0].strIngredient4 + "<br>") };
+      if (response.drinks[0].strIngredient5.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure5 + " " + response.drinks[0].strIngredient5 + "<br>") };
+      if (response.drinks[0].strIngredient6.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure6 + " " + response.drinks[0].strIngredient6 + "<br>") };
+      if (response.drinks[0].strIngredient7.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure7 + " " + response.drinks[0].strIngredient7 + "<br>") };
+      if (response.drinks[0].strIngredient8.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure8 + " " + response.drinks[0].strIngredient8 + "<br>") };
+      if (response.drinks[0].strIngredient9.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure9 + " " + response.drinks[0].strIngredient9 + "<br>") };
+      if (response.drinks[0].strIngredient10.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure10 + " " + response.drinks[0].strIngredient10 + "<br>") };
+      if (response.drinks[0].strIngredient11.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure11 + " " + response.drinks[0].strIngredient11 + "<br>") };
+      if (response.drinks[0].strIngredient12.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure12 + " " + response.drinks[0].strIngredient12 + "<br>") };
+      if (response.drinks[0].strIngredient13.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure13 + " " + response.drinks[0].strIngredient13 + "<br>") };
+      if (response.drinks[0].strIngredient14.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure14 + " " + response.drinks[0].strIngredient14 + "<br>") };
+      if (response.drinks[0].strIngredient15.length > 0) { $("#drink-results").append(response.drinks[0].strMeasure15 + " " + response.drinks[0].strIngredient15 + "<br>") };
+      $("#drink-results").append("</br> Instructions: </br> " + response.drinks[0].strInstructions + "</br>");
+    });
   });
-});
   //==============================
   // Click back to home button
   //==============================
