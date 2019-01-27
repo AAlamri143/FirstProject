@@ -2,7 +2,7 @@
 
 A recipe website where can search drink and food recipes on one site!
 
- [Click the link to open the website:](https://aalamri143.github.io/FirstProject/).
+ Click the link to open the website:[https://aalamri143.github.io/FirstProject/](https://aalamri143.github.io/FirstProject/).
  
 ![GitHub Logo](assets/images/p1.png)
 
