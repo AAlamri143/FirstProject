@@ -10,6 +10,6 @@ Meal-Drink is a website where the user can get dinner and drink recipes and idea
 
 * Easy to use
 * Clear interface with Animations effects
-Access the information quickly
-Youtube videos lead to cook step by step
-Countless random Meal or Drink by one click
+* Access the information quickly
+* Youtube videos lead to cook step by step
+* Countless random Meal or Drink by one click
