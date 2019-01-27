@@ -27,4 +27,4 @@ Meal-Drink is a website where the user can get dinner and drink recipes and idea
  * TheCockTailDB API
 
 # Challenges Faced
-the hardest challenges are always in the beginning and they must not give up. After redoing and fixing I become an expert.
+The hardest challenges are always in the beginning and they must not give up. After redoing and fixing I become an expert.
