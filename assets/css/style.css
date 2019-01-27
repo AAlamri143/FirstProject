@@ -609,6 +609,9 @@ footer {
   #jumbo h2{
     font-size: 60px;
   }
+  #jumbo p{
+    font-size: 90%;
+  }
   .lead{
     font-size: 13px !important;
   }
