@@ -15,7 +15,7 @@ Meal-Drink is a website where the user can get dinner and drink recipes and idea
 * Countless random Meal or Drink by one click
 
 
-🍸Technologies:
+# 🍸Technologies:
  * HTML5
  * JavaScript/JQuery
  * CSS/Bootstrap
